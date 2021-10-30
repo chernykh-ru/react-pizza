@@ -33,17 +33,14 @@ import React from 'react';
 
 function Categories({ items }) {
   const [activeItem, setActivItem] = React.useState(null);
-  // const [count, setCount] = React.useState(null);
 
   const onSelectItem = (index) => {
     setActivItem(index);
-    // setCount((num) => num + 1);
   };
 
   return (
     <div className='categories'>
       <ul>
-        {/* <h3>{count}</h3> */}
         <li className={activeItem === null ? 'active' : ''} onClick={() => onSelectItem(null)}>
           Все
         </li>
