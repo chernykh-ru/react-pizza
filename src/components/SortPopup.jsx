@@ -5,7 +5,7 @@ function SortPopup({ items }) {
   const [activeItem, setActivItem] = React.useState(0);
 
   const sortRef = React.useRef(); //привязываем div sort хуком
-  console.log(sortRef.current);
+  // console.log(sortRef.current);
 
   const activeLabel = items[activeItem]; //берем из пропсов активный элемент, присваиваем его переменной activeLabel и показываем ее в нужном span
 
@@ -18,7 +18,7 @@ function SortPopup({ items }) {
     // если в пути клика(includes -  поиск по массиву путей) есть отслеживаемый сортреф(див сорт)
     if (!e.path.includes(sortRef.current)) {
       setVisiblePopup(false); //при клике вне области попапа, попап скрывается
-      console.log('helloRef');
+      console.log('outsidePopup');
     }
   };
   //навешиваем отслеживание клика на все окно
