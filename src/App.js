@@ -3,16 +3,16 @@ import { Header } from './components';
 import { Home, Cart } from './pages';
 import { Route } from 'react-router-dom';
 import React from 'react';
+import axios from 'axios';
 
 function App() {
   const [pizzas, setPizzas] = React.useState([]);
   //componentDidMount, выполнит этот эффект только один раз при первом рендере
   React.useEffect(() => {
-    fetch('http://localhost:5000/db.json')
-      .then((resp) => resp.json())
-      .then((json) => {
-        setPizzas(json.pizzas);
-      }); //получение json с сервера
+    axios.get('http://localhost:5000/db.json').then(({ data }) => {
+      setPizzas(data.pizzas);
+    });
+    //получение json с сервера
     // fetch('http://localhost:5000/db.json')
     //   .then((resp) => resp.json())
     //   .then((json) => console.log(json)); //получение json с сервера
