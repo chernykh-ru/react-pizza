@@ -3,7 +3,7 @@ import { Categories, SortPopup, PizzaBlock } from './../components';
 // import Categories from '../components/Categories';
 // import SortPopup from '../components/sortPopup';
 
-function Home({ pizzas }) {
+function Home({ items }) {
   // деструктурируем пропсы до массива pizzas
   //мэпим массив на элементы
   // console.log(pizzas);
@@ -11,11 +11,17 @@ function Home({ pizzas }) {
     <div className='container'>
       <div className='content__top'>
         <Categories items={['Мясные', 'Вегатарианская', 'Гриль', 'Острые', 'Закрытые']} />
-        <SortPopup items={['популярности', 'цене', 'алфавиту']} />
+        <SortPopup
+          items={[
+            { name: 'популярности', type: 'popular' },
+            { name: 'цене', type: 'price' },
+            { name: 'алфавиту', type: 'alphabet' },
+          ]}
+        />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>
-        {pizzas.map((obj) => (
+        {items.map((obj) => (
           <PizzaBlock
             key={obj.id}
             {...obj} //оператор распространения spread (…) прокидываем все свойства объекта в пропсы

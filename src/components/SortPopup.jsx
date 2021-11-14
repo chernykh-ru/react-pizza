@@ -7,7 +7,7 @@ function SortPopup({ items }) {
   const sortRef = React.useRef(); //привязываем div sort хуком
   // console.log(sortRef.current);
 
-  const activeLabel = items[activeItem]; //берем из пропсов активный элемент, присваиваем его переменной activeLabel и показываем ее в нужном span
+  const activeLabel = items[activeItem].name; //берем из пропсов активный элемент, присваиваем его переменной activeLabel и показываем ее в нужном span
 
   const toggleVisiblePopup = () => {
     setVisiblePopup(!visiblePopup);
@@ -58,12 +58,12 @@ function SortPopup({ items }) {
       {visiblePopup && (
         <div className='sort__popup'>
           <ul>
-            {items?.map((item, index) => (
+            {items?.map((obj, index) => (
               <li
                 className={activeItem === index ? 'active' : ''}
                 onClick={() => onSelectItem(index)}
-                key={`${item}_${index}`}>
-                {item}
+                key={`${obj.type}_${index}`}>
+                {obj.name}
               </li>
             ))}
             {/* <li className='active'>популярности</li>
