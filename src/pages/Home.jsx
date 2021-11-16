@@ -21,15 +21,16 @@ function Home({ items }) {
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>
-        {items.map((obj) => (
-          <PizzaBlock
-            key={obj.id}
-            {...obj} //оператор распространения spread (…) прокидываем все свойства объекта в пропсы
-            // name={items.name}
-            // imageUrl={items.imageUrl}
-            // sizes={items.sizes}
-          />
-        ))}
+        {items &&
+          items.map((obj) => (
+            <PizzaBlock
+              key={obj.id}
+              {...obj} //оператор распространения spread (…) прокидываем все свойства объекта в пропсы
+              // name={items.name}
+              // imageUrl={items.imageUrl}
+              // sizes={items.sizes}
+            />
+          ))}
       </div>
     </div>
   );
