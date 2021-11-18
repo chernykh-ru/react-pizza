@@ -1,10 +1,11 @@
 import React from 'react';
 
-function Categories({ items }) {
+const Categories = React.memo(function Categories({ items, onClickItem }) {
   const [activeItem, setActivItem] = React.useState(null);
 
   const onSelectItem = (index) => {
     setActivItem(index);
+    onClickItem(index);
   };
 
   return (
@@ -13,18 +14,20 @@ function Categories({ items }) {
         <li className={activeItem === null ? 'active' : ''} onClick={() => onSelectItem(null)}>
           Все
         </li>
-        {items?.map((item, index) => (
+        {items?.map((name, index) => (
           <li
             className={activeItem === index ? 'active' : ''}
             onClick={() => onSelectItem(index)}
-            key={`${item}_${index}`}>
-            {item}
+            key={`${name}_${index}`}>
+            {name}
           </li>
         ))}
       </ul>
     </div>
   );
-}
+});
+
+export default Categories;
 
 // class Categories extends React.Component {
 //   state = {
@@ -56,5 +59,3 @@ function Categories({ items }) {
 //     );
 //   }
 // }
-
-export default Categories;

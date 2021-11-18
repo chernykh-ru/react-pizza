@@ -4,24 +4,29 @@ import { Home, Cart } from './pages';
 import { Route } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-// import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setPizzas } from './redux/reducers/pizzas';
 
 function App() {
   const dispatch = useDispatch();
   //useSelector вытащили из веток стейта нужные нам части стейта, после передаем items props to Home
-  const { items } = useSelector(({ pizzas, filters }) => {
-    return {
-      items: pizzas.items,
-      // sortBy: filters.sortBy,//для примера
-    };
-  });
+  // const { items } = useSelector(({ pizzas, filters }) => {
+  //   return {
+  //     items: pizzas.items,
+  //     // sortBy: filters.sortBy,//для примера
+  //   };
+  // });
   // console.log(stateTree);
   //useEffect подобие componentDidMount, выполнит этот запрос при первом рендере
+  // React.useEffect(() => {
+  //   axios.get('http://localhost:5000/db.json').then(({ data }) => {
+  //     dispatch(setPizzas(data.pizzas));
+  //     // window.store.dispatch(setPizzas(data.pizzas));
+  //   });
+  // }, []);
   React.useEffect(() => {
-    axios.get('http://localhost:5000/db.json').then(({ data }) => {
-      dispatch(setPizzas(data.pizzas));
+    axios.get('http://localhost:5000/pizzas').then(({ data }) => {
+      dispatch(setPizzas(data));
       // window.store.dispatch(setPizzas(data.pizzas));
     });
   }, []);
@@ -31,7 +36,7 @@ function App() {
       <Header />
       <div className='content'>
         <Route exact path='/'>
-          <Home items={items} />
+          <Home />
         </Route>
         <Route exact path='/cart'>
           <Cart />

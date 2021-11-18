@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SortPopup({ items }) {
+const SortPopup = React.memo(function SortPopup({ items }) {
   const [visiblePopup, setVisiblePopup] = React.useState(false);
   const [activeItem, setActivItem] = React.useState(0);
 
@@ -18,7 +18,7 @@ function SortPopup({ items }) {
     // если в пути клика(includes -  поиск по массиву путей) есть отслеживаемый сортреф(див сорт)
     if (!e.path.includes(sortRef.current)) {
       setVisiblePopup(false); //при клике вне области попапа, попап скрывается
-      console.log('outsidePopup');
+      // console.log('outsidePopup');
     }
   };
   //навешиваем отслеживание клика на все окно
@@ -74,7 +74,7 @@ function SortPopup({ items }) {
       )}
     </div>
   );
-}
+});
 //rfce
 
 export default SortPopup;
