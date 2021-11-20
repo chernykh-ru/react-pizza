@@ -2,10 +2,22 @@ import React from 'react';
 import { Categories, SortPopup, PizzaBlock } from './../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategory } from '../redux/reducers/filters';
+import { fetchPizzas } from '../redux/reducers/pizzas';
 
 function Home() {
-  const items = useSelector(({ pizzas }) => pizzas.items);
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    // if (!items.length) {
+    //   dispatch(fetchPizzas());
+    // }
+    dispatch(fetchPizzas());
+    // axios.get('http://localhost:5000/pizzas').then(({ data }) => {
+    //   dispatch(setPizzas(data));
+    // });
+  }, []);
+
+  const items = useSelector(({ pizzas }) => pizzas.items);
+  // const dispatch = useDispatch();
 
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index));

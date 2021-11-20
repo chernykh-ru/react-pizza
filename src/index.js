@@ -12,8 +12,6 @@ ReactDOM.render(
     <Router>
       <Provider store={store}>
         <App />
-        {/* <Route exact path='/' component={App}></Route>
-        <Route path='/Header' component={Header}></Route> */}
       </Provider>
     </Router>
   </React.StrictMode>,
