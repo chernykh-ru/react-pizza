@@ -7,30 +7,17 @@ import { fetchPizzas } from '../redux/reducers/pizzas';
 function Home() {
   const dispatch = useDispatch();
   const items = useSelector(({ pizzas }) => pizzas.items);
-  // const { items } = useSelector(({ pizzas }) => {
-  //   return {
-  //     items: pizzas.items,
-  //   };
-  // });
   const isLoaded = useSelector(({ pizzas }) => pizzas.isLoaded);
   const { category, sortBy } = useSelector(({ filters }) => filters);
-  // const dispatch = useDispatch();
-
-  // console.log(sortBy);
-  // console.log(category, sortBy);
-
   const categoryNames = ['Мясные', 'Вегатарианская', 'Гриль', 'Острые', 'Закрытые'];
   const sortItems = [
-    { name: 'популярности', type: 'popular' },
-    { name: 'цене', type: 'price' },
-    { name: 'алфавиту', type: 'alphabet' },
+    { name: 'популярности', type: 'popular', order: 'desc' },
+    { name: 'цене', type: 'price', order: 'desc' },
+    { name: 'алфавиту', type: 'name', order: 'asc' },
   ];
 
   React.useEffect(() => {
-    dispatch(fetchPizzas());
-    // axios.get('http://localhost:5000/pizzas').then(({ data }) => {
-    //   dispatch(setPizzas(data));
-    // });
+    dispatch(fetchPizzas(category, sortBy));
   }, [category, sortBy, dispatch]);
 
   const onSelectCategory = React.useCallback(
@@ -60,8 +47,8 @@ function Home() {
           items={categoryNames}
         />
         <SortPopup
-          activeSortType={sortBy}
-          // activeSortType={sortBy.type}
+          // activeSortType={sortBy}
+          activeSortType={sortBy.type}
           items={sortItems}
           onClickSortType={onSelectSortType}
         />
@@ -79,16 +66,6 @@ function Home() {
           : Array(10)
               .fill(0)
               .map((_, i) => <PizzaLoadingBlock key={i} />)}
-        {/* {items &&
-          items.map((obj) => (
-            <PizzaBlock
-              key={obj.id}
-              {...obj}
-              // name={items.name}
-              // imageUrl={items.imageUrl}
-              // sizes={items.sizes}
-            />
-          ))} */}
       </div>
     </div>
   );

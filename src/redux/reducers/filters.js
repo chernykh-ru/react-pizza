@@ -3,7 +3,10 @@ const SET_CATEGORY = 'REACT_PIZZA/PIZZAS/SET_CATEGORY';
 
 const initialState = {
   category: null,
-  sortBy: 'popular',
+  sortBy: {
+    type: 'popular',
+    order: 'desc',
+  },
 };
 
 const filters = (state = initialState, action) => {
@@ -23,10 +26,14 @@ const filters = (state = initialState, action) => {
   }
 };
 
-export const setSortBy = (name) => ({
+export const setSortBy = ({ type, order }) => ({
   type: SET_SORT_BY,
-  payload: name,
+  payload: { type, order },
 });
+// export const setSortBy = (name) => ({
+//   type: SET_SORT_BY,
+//   payload: name,
+// });
 
 export const setCategory = (catIndex) => ({
   type: SET_CATEGORY,

@@ -4,20 +4,17 @@ import PropTypes from 'prop-types';
 
 function PizzaBlock({ name, imageUrl, sizes, price, types }) {
   const availableTypes = ['тонкое', 'традиционное'];
+  const availableSizes = [26, 30, 40];
+
   const [activeType, setActivType] = React.useState(types[0]);
   const onSelectType = (index) => {
     setActivType(index);
   };
 
-  const availableSizes = [26, 30, 40];
   const [activeSize, setActivSize] = React.useState(sizes[0]);
   const onSelectSize = (index) => {
     setActivSize(index);
   };
-
-  // if (isLoading) {
-  //   return <PizzaLoadingBlock />;
-  // }
 
   return (
     <div className='pizza-block'>
@@ -53,9 +50,6 @@ function PizzaBlock({ name, imageUrl, sizes, price, types }) {
               {size} см.
             </li>
           ))}
-          {/* <li className='active'>26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li> */}
         </ul>
       </div>
       <div className='pizza-block__bottom'>

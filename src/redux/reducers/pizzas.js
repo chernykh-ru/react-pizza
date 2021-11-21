@@ -38,14 +38,15 @@ export const setLoaded = (payload) => ({
 });
 
 //TC
-// export const fetchPizzas = () => async (dispatch) => {
+// export const fetchPizzas = (category, sortBy) => async (dispatch) => {
 //   dispatch(setLoaded(false));
-//   const data = await pizzasAPI.getPizzas();
+//   const data = await pizzasAPI.getPizzas(category, sortBy);
 //   dispatch(setPizzas(data));
 // };
-export const fetchPizzas = () => async (dispatch) => {
+export const fetchPizzas = (category, sortBy) => async (dispatch) => {
+  // debugger;
   dispatch(setLoaded(false));
-  const data = await pizzasAPI.getPizzas();
+  const data = await pizzasAPI.getPizzas(category, sortBy);
   setTimeout(() => {
     dispatch(setPizzas(data));
   }, 1200); //simulated server response delay
@@ -57,7 +58,7 @@ export const fetchPizzas = () => async (dispatch) => {
 // };
 
 // export const fetchPizzas = () => (dispatch) => {
-//   axios.get('http://localhost:5000/pizzas').then(({ data }) => {
+//   axios.get(`http://localhost:5000/pizzas?category=${category}`).then(({ data }) => {
 //     dispatch(setPizzas(data));
 //   });
 // };

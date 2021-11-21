@@ -6,8 +6,12 @@ const instance = axios.create({
 });
 
 export const pizzasAPI = {
-  async getPizzas() {
-    const response = await instance.get(`pizzas/`);
+  async getPizzas(category, sortBy) {
+    const response = await instance.get(
+      `pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy.type}&_order=${
+        sortBy.order
+      }`,
+    );
     return response.data;
   },
 };

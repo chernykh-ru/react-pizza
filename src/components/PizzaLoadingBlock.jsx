@@ -6,17 +6,18 @@ function PizzaLoadingBlock() {
   return (
     <div>
       <ContentLoader
+        className='pizza-block'
         speed={2}
-        width={315}
+        width={280}
         height={460}
-        viewBox='0 0 315 460'
+        viewBox='0 0 280 460'
         backgroundColor='#f3f3f3'
         foregroundColor='#ecebeb'>
-        <circle cx='156' cy='123' r='100' />
-        <rect x='0' y='256' rx='6' ry='6' width='315' height='26' />
-        <rect x='0' y='296' rx='6' ry='6' width='315' height='84' />
-        <rect x='0' y='400' rx='6' ry='6' width='90' height='32' />
-        <rect x='154' y='393' rx='21' ry='21' width='160' height='43' />
+        <circle cx='132' cy='142' r='115' />
+        <rect x='0' y='273' rx='6' ry='6' width='280' height='26' />
+        <rect x='0' y='310' rx='6' ry='6' width='280' height='84' />
+        <rect x='0' y='418' rx='6' ry='6' width='91' height='31' />
+        <rect x='137' y='408' rx='25' ry='25' width='140' height='46' />
       </ContentLoader>
     </div>
   );
