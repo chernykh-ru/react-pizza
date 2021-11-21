@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { pizzasAPI } from '../../api/api';
 
 const SET_PIZZAS = 'REACT_PIZZA/PIZZAS/SET_PIZZAS';
+const SET_LOADED = 'REACT_PIZZA/PIZZAS/SET_LOADED';
 
 const initialState = {
   items: [],
@@ -16,6 +16,11 @@ const pizzas = (state = initialState, action) => {
         items: action.payload,
         isLoaded: true,
       };
+    case SET_LOADED:
+      return {
+        ...state,
+        isLoaded: action.payload,
+      };
     default:
       return state;
   }
@@ -27,10 +32,23 @@ export const setPizzas = (items) => ({
   payload: items,
 });
 
+export const setLoaded = (payload) => ({
+  type: SET_LOADED,
+  payload,
+});
+
 //TC
+// export const fetchPizzas = () => async (dispatch) => {
+//   dispatch(setLoaded(false));
+//   const data = await pizzasAPI.getPizzas();
+//   dispatch(setPizzas(data));
+// };
 export const fetchPizzas = () => async (dispatch) => {
+  dispatch(setLoaded(false));
   const data = await pizzasAPI.getPizzas();
-  dispatch(setPizzas(data));
+  setTimeout(() => {
+    dispatch(setPizzas(data));
+  }, 1200); //simulated server response delay
 };
 
 // export const fetchPizzas = () => async (dispatch) => {

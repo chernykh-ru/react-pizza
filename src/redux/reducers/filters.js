@@ -2,7 +2,7 @@ const SET_SORT_BY = 'REACT_PIZZA/PIZZAS/SET_SORT_BY';
 const SET_CATEGORY = 'REACT_PIZZA/PIZZAS/SET_CATEGORY';
 
 const initialState = {
-  category: 0,
+  category: null,
   sortBy: 'popular',
 };
 

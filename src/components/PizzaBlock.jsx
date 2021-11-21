@@ -14,8 +14,11 @@ function PizzaBlock({ name, imageUrl, sizes, price, types }) {
   const onSelectSize = (index) => {
     setActivSize(index);
   };
-  // const pizzas = props.pizzas;
-  // оператор распространения spread (…) прокидывает все пропсы, обращаемся к ним напрямую по имени ключа
+
+  // if (isLoading) {
+  //   return <PizzaLoadingBlock />;
+  // }
+
   return (
     <div className='pizza-block'>
       <img className='pizza-block__image' src={imageUrl} alt='Pizza' />
