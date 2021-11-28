@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import Button from './Button';
 
-function PizzaBlock({ name, imageUrl, sizes, price, types }) {
+function PizzaBlock({ id, name, imageUrl, sizes, price, types, onClickAddPizza, addedCount }) {
   const availableTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];
 
@@ -11,9 +12,21 @@ function PizzaBlock({ name, imageUrl, sizes, price, types }) {
     setActivType(index);
   };
 
-  const [activeSize, setActivSize] = React.useState(sizes[0]);
+  const [activeSize, setActivSize] = React.useState(0);
   const onSelectSize = (index) => {
     setActivSize(index);
+  };
+
+  const onAddPizza = () => {
+    const obj = {
+      id,
+      name,
+      imageUrl,
+      price,
+      size: availableSizes[activeSize],
+      type: availableTypes[activeType],
+    };
+    onClickAddPizza(obj);
   };
 
   return (
@@ -54,7 +67,11 @@ function PizzaBlock({ name, imageUrl, sizes, price, types }) {
       </div>
       <div className='pizza-block__bottom'>
         <div className='pizza-block__price'>от {price} ₽</div>
-        <div className='button button--outline button--add'>
+        <Button
+          onClick={onAddPizza}
+          // onClick={() => onClickAddPizza({ id, name, imageUrl, sizes, price })}
+          className='button--add'
+          outline>
           <svg
             width='12'
             height='12'
@@ -67,8 +84,8 @@ function PizzaBlock({ name, imageUrl, sizes, price, types }) {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+          {addedCount && <i>{addedCount}</i>}
+        </Button>
       </div>
     </div>
   );
@@ -81,6 +98,8 @@ PizzaBlock.propTypes = {
   price: PropTypes.number,
   types: PropTypes.arrayOf(PropTypes.number).isRequired,
   sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+  onAddPizza: PropTypes.func,
+  addedCount: PropTypes.number,
 };
 
 PizzaBlock.defaultProps = {
@@ -88,6 +107,7 @@ PizzaBlock.defaultProps = {
   price: 0,
   types: [],
   sizes: [],
+  // addedCount: 0,
 };
 
 export default PizzaBlock;

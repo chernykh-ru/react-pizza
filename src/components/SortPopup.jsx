@@ -19,10 +19,11 @@ const SortPopup = React.memo(function SortPopup({ items, activeSortType, onClick
     setVisiblePopup(!visiblePopup);
   };
   //---
-  const handleOutsideClick = (e) => {
+  const handleOutsideClick = (event) => {
+    const path = event.path || (event.composedPath && event.composedPath()); //bug firefox
     // console.log(e.path); //путь к элементу на котором был клик
     // если в пути клика(includes -  поиск по массиву путей) есть отслеживаемый сортреф(див сорт)
-    if (!e.path.includes(sortRef.current)) {
+    if (!path.includes(sortRef.current)) {
       setVisiblePopup(false); //при клике вне области попапа, попап скрывается
       // console.log('outsidePopup');
     }

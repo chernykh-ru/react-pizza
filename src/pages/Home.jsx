@@ -2,13 +2,16 @@ import React from 'react';
 import { Categories, SortPopup, PizzaBlock, PizzaLoadingBlock } from './../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategory, setSortBy } from '../redux/reducers/filters';
+// import { onAddCart } from '../redux/reducers/cart';//test
 import { fetchPizzas } from '../redux/reducers/pizzas';
+import { addPizzaToCart } from '../redux/reducers/cart';
 
 function Home() {
   const dispatch = useDispatch();
-  const items = useSelector(({ pizzas }) => pizzas.items);
-  const isLoaded = useSelector(({ pizzas }) => pizzas.isLoaded);
+  const { items, isLoaded } = useSelector(({ pizzas }) => pizzas);
   const { category, sortBy } = useSelector(({ filters }) => filters);
+  const cartItems = useSelector(({ cart }) => cart.items);
+  // console.log(cartItems);
   const categoryNames = ['Мясные', 'Вегатарианская', 'Гриль', 'Острые', 'Закрытые'];
   const sortItems = [
     { name: 'популярности', type: 'popular', order: 'desc' },
@@ -33,6 +36,17 @@ function Home() {
     },
     [dispatch],
   );
+
+  const handleAddPizzaToCart = (obj) => {
+    dispatch(addPizzaToCart(obj));
+  };
+
+  // const onAddPizza = React.useCallback(
+  //   (obj) => {
+  //     dispatch(onAddCart(obj));
+  //   },
+  //   [dispatch],
+  // );//test
   // const onSelectSortType = React.useCallback((obj) => {
   //   dispatch(setSortBy(obj.type));
   // }, []);
@@ -59,6 +73,10 @@ function Home() {
         {isLoaded
           ? items.map((obj) => (
               <PizzaBlock
+                onClickAddPizza={handleAddPizzaToCart}
+                // onClickAddPizza={(obj) => console.log(obj)}
+                // onClickAddPizza={onAddPizza}
+                addedCount={cartItems[obj.id] && cartItems[obj.id].length}
                 key={obj.id}
                 {...obj} //оператор распространения spread (…) прокидываем все свойства объекта в пропсы
               />
