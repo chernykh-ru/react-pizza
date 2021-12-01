@@ -14,7 +14,8 @@ function Home() {
   // console.log(cartItems);
   const categoryNames = ['Мясные', 'Вегатарианская', 'Гриль', 'Острые', 'Закрытые'];
   const sortItems = [
-    { name: 'популярности', type: 'popular', order: 'desc' },
+    { name: 'популярности', type: 'rating', order: 'desc' },
+    // { name: 'популярности', type: 'popular', order: 'desc' },
     { name: 'цене', type: 'price', order: 'desc' },
     { name: 'алфавиту', type: 'name', order: 'asc' },
   ];
@@ -41,16 +42,6 @@ function Home() {
     dispatch(addPizzaToCart(obj));
   };
 
-  // const onAddPizza = React.useCallback(
-  //   (obj) => {
-  //     dispatch(onAddCart(obj));
-  //   },
-  //   [dispatch],
-  // );//test
-  // const onSelectSortType = React.useCallback((obj) => {
-  //   dispatch(setSortBy(obj.type));
-  // }, []);
-
   return (
     <div className='container'>
       <div className='content__top'>
@@ -74,9 +65,7 @@ function Home() {
           ? items.map((obj) => (
               <PizzaBlock
                 onClickAddPizza={handleAddPizzaToCart}
-                // onClickAddPizza={(obj) => console.log(obj)}
-                // onClickAddPizza={onAddPizza}
-                addedCount={cartItems[obj.id] && cartItems[obj.id].length}
+                addedCount={cartItems[obj.id] && cartItems[obj.id].items.length}
                 key={obj.id}
                 {...obj} //оператор распространения spread (…) прокидываем все свойства объекта в пропсы
               />

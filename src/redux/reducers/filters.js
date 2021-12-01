@@ -4,7 +4,8 @@ const SET_CATEGORY = 'REACT_PIZZA/PIZZAS/SET_CATEGORY';
 const initialState = {
   category: null,
   sortBy: {
-    type: 'popular',
+    type: 'rating',
+    // type: 'popular',
     order: 'desc',
   },
 };

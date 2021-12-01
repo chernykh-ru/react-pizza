@@ -1,7 +1,3 @@
-// import { pizzasAPI } from '../../api/api';
-
-// const SET_TOTAL_PRICE = 'REACT_PIZZA/CART/SET_TOTAL_PRICE';
-// const SET_TOTAL_COUNT = 'REACT_PIZZA/CART/SET_TOTAL_COUNT';
 const ADD_PIZZA_CART = 'REACT_PIZZA/CART/ADD_PIZZA_CART';
 
 const initialState = {
@@ -10,28 +6,31 @@ const initialState = {
   totalCount: 0,
 };
 
+const getTotalPrice = (arr) => arr.reduce((sum, obj) => obj.price + sum, 0);
+
 const cart = (state = initialState, action) => {
   switch (action.type) {
-    // case ADD_PIZZA_CART:
-    //   return {
-    //     ...state,
-    //     items: {
-    //       ...state.items,
-    //       [action.payload.id]: !state.items[action.payload.id]
-    //         ? [action.payload]
-    //         : [...state.items[action.payload.id], action.payload],
-    //     },
-    //     totalCount: Object.keys(state.items).length,
-    //   };
     case ADD_PIZZA_CART: {
+      const currentPizzaItems = !state.items[action.payload.id]
+        ? [action.payload]
+        : [...state.items[action.payload.id].items, action.payload];
       const newItems = {
         ...state.items,
-        [action.payload.id]: !state.items[action.payload.id]
-          ? [action.payload]
-          : [...state.items[action.payload.id], action.payload],
+        [action.payload.id]: {
+          items: currentPizzaItems,
+          totalPrice: getTotalPrice(currentPizzaItems),
+        },
       };
-      const allPizzas = [].concat(...Object.values(newItems));
-      const totalPrice = allPizzas.reduce((sum, obj) => obj.price + sum, 0);
+      // case ADD_PIZZA_CART: {
+      //   const newItems = {
+      //     ...state.items,
+      //     [action.payload.id]: !state.items[action.payload.id]
+      //       ? [action.payload]
+      //       : [...state.items[action.payload.id], action.payload],
+      //   };
+      const items = Object.values(newItems).map((obj) => obj.items);
+      const allPizzas = [].concat.apply([], items);
+      const totalPrice = getTotalPrice(allPizzas);
 
       return {
         ...state,
@@ -63,40 +62,5 @@ export const addPizzaToCart = (pizzaObj) => ({
   type: ADD_PIZZA_CART,
   payload: pizzaObj,
 });
-// export const setTotalPrice = (payload) => ({
-//   type: SET_TOTAL_PRICE,
-//   payload,
-// });
-
-// export const setTotalCount = (payload) => ({
-//   type: SET_TOTAL_COUNT,
-//   payload,
-// });
-
-//TC
-// export const fetchPizzas = (category, sortBy) => async (dispatch) => {
-//   dispatch(setLoaded(false));
-//   const data = await pizzasAPI.getPizzas(category, sortBy);
-//   dispatch(setPizzas(data));
-// };
-// export const fetchPizzas = (category, sortBy) => async (dispatch) => {
-//   // debugger;
-//   dispatch(setLoaded(false));
-//   const data = await pizzasAPI.getPizzas(category, sortBy);
-//   setTimeout(() => {
-//     dispatch(setPizzas(data));
-//   }, 1200); //simulated server response delay
-// };
-
-// export const fetchPizzas = () => async (dispatch) => {
-//   const { data } = await axios.get('http://localhost:5000/pizzas');
-//   dispatch(setPizzas(data));
-// };
-
-// export const fetchPizzas = () => (dispatch) => {
-//   axios.get(`http://localhost:5000/pizzas?category=${category}`).then(({ data }) => {
-//     dispatch(setPizzas(data));
-//   });
-// };
 
 export default cart;
