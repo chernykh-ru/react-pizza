@@ -1,4 +1,5 @@
 const ADD_PIZZA_CART = 'REACT_PIZZA/CART/ADD_PIZZA_CART';
+const CLEAR_PIZZA_CART = 'REACT_PIZZA/CART/CLEAR_PIZZA_CART';
 
 const initialState = {
   items: {},
@@ -21,13 +22,6 @@ const cart = (state = initialState, action) => {
           totalPrice: getTotalPrice(currentPizzaItems),
         },
       };
-      // case ADD_PIZZA_CART: {
-      //   const newItems = {
-      //     ...state.items,
-      //     [action.payload.id]: !state.items[action.payload.id]
-      //       ? [action.payload]
-      //       : [...state.items[action.payload.id], action.payload],
-      //   };
       const items = Object.values(newItems).map((obj) => obj.items);
       const allPizzas = [].concat.apply([], items);
       const totalPrice = getTotalPrice(allPizzas);
@@ -37,21 +31,16 @@ const cart = (state = initialState, action) => {
         items: newItems,
         totalCount: allPizzas.length,
         totalPrice: totalPrice,
-        // totalCount: [].concat(...Object.values(newItems)).length,
-        // totalCount: Object.keys(newItems).length,
-        // totalCount: [].concat.apply([], Object.values(newItems)).length,
       };
     }
-    // case SET_TOTAL_PRICE:
-    //   return {
-    //     ...state,
-    //     totalPrice: action.payload,
-    //   };
-    // case SET_TOTAL_COUNT:
-    //   return {
-    //     ...state,
-    //     totalCount: action.payload,
-    //   };
+    case CLEAR_PIZZA_CART: {
+      return {
+        ...state,
+        items: {},
+        totalPrice: 0,
+        totalCount: 0,
+      };
+    }
     default:
       return state;
   }
@@ -61,6 +50,10 @@ const cart = (state = initialState, action) => {
 export const addPizzaToCart = (pizzaObj) => ({
   type: ADD_PIZZA_CART,
   payload: pizzaObj,
+});
+
+export const clearPizzaOnCart = () => ({
+  type: CLEAR_PIZZA_CART,
 });
 
 export default cart;
