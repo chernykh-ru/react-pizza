@@ -7,7 +7,7 @@ import Button from './Button';
 
 function Header() {
   const { totalPrice, totalCount } = useSelector(({ cart }) => cart);
-  console.log(totalPrice, totalCount);
+  // console.log(totalPrice, totalCount);
   // const { totalPrice, totalCount } = useSelector(({ cart }) => ({
   //   totalPrice: cart.totalPrice,
   //   totalCount: cart.totalCount,

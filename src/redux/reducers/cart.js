@@ -1,5 +1,8 @@
 const ADD_PIZZA_CART = 'REACT_PIZZA/CART/ADD_PIZZA_CART';
 const CLEAR_PIZZA_CART = 'REACT_PIZZA/CART/CLEAR_PIZZA_CART';
+const REMOVE_CART_ITEM = 'REACT_PIZZA/CART/REMOVE_CART_ITEM';
+const PLUS_CART_ITEM = 'REACT_PIZZA/CART/PLUS_CART_ITEM';
+const MINUS_CART_ITEM = 'REACT_PIZZA/CART/MINUS_CART_ITEM';
 
 const initialState = {
   items: {},
@@ -9,12 +12,27 @@ const initialState = {
 
 const getTotalPrice = (arr) => arr.reduce((sum, obj) => obj.price + sum, 0);
 
+const _get = (obj, path) => {
+  const [firstKey, ...keys] = path.split('.');
+  return keys.reduce((val, key) => {
+    return val[key];
+  }, obj[firstKey]);
+};
+
+const getTotalSum = (obj, path) => {
+  return Object.values(obj).reduce((sum, obj) => {
+    const value = _get(obj, path);
+    return sum + value;
+  }, 0);
+};
+
 const cart = (state = initialState, action) => {
   switch (action.type) {
     case ADD_PIZZA_CART: {
       const currentPizzaItems = !state.items[action.payload.id]
         ? [action.payload]
         : [...state.items[action.payload.id].items, action.payload];
+
       const newItems = {
         ...state.items,
         [action.payload.id]: {
@@ -22,25 +40,83 @@ const cart = (state = initialState, action) => {
           totalPrice: getTotalPrice(currentPizzaItems),
         },
       };
-      const items = Object.values(newItems).map((obj) => obj.items);
-      const allPizzas = [].concat.apply([], items);
-      const totalPrice = getTotalPrice(allPizzas);
+
+      const totalCount = getTotalSum(newItems, 'items.length');
+      const totalPrice = getTotalSum(newItems, 'totalPrice');
 
       return {
         ...state,
         items: newItems,
-        totalCount: allPizzas.length,
-        totalPrice: totalPrice,
+        totalCount,
+        totalPrice,
       };
     }
-    case CLEAR_PIZZA_CART: {
+
+    case REMOVE_CART_ITEM: {
+      const newItems = {
+        ...state.items,
+      };
+      const currentTotalPrice = newItems[action.payload].totalPrice;
+      const currentTotalCount = newItems[action.payload].items.length;
+      delete newItems[action.payload];
       return {
         ...state,
-        items: {},
-        totalPrice: 0,
-        totalCount: 0,
+        items: newItems,
+        totalPrice: state.totalPrice - currentTotalPrice,
+        totalCount: state.totalCount - currentTotalCount,
       };
     }
+
+    case PLUS_CART_ITEM: {
+      const newObjItems = [
+        ...state.items[action.payload].items,
+        state.items[action.payload].items[0],
+      ];
+      const newItems = {
+        ...state.items,
+        [action.payload]: {
+          items: newObjItems,
+          totalPrice: getTotalPrice(newObjItems),
+        },
+      };
+
+      const totalCount = getTotalSum(newItems, 'items.length');
+      const totalPrice = getTotalSum(newItems, 'totalPrice');
+
+      return {
+        ...state,
+        items: newItems,
+        totalCount,
+        totalPrice,
+      };
+    }
+
+    case MINUS_CART_ITEM: {
+      const oldItems = state.items[action.payload].items;
+      const newObjItems =
+        oldItems.length > 1 ? state.items[action.payload].items.slice(1) : oldItems;
+      const newItems = {
+        ...state.items,
+        [action.payload]: {
+          items: newObjItems,
+          totalPrice: getTotalPrice(newObjItems),
+        },
+      };
+
+      const totalCount = getTotalSum(newItems, 'items.length');
+      const totalPrice = getTotalSum(newItems, 'totalPrice');
+
+      return {
+        ...state,
+        items: newItems,
+        totalCount,
+        totalPrice,
+      };
+    }
+
+    case CLEAR_PIZZA_CART:
+      return { totalPrice: 0, totalCount: 0, items: {} };
+
     default:
       return state;
   }
@@ -54,6 +130,21 @@ export const addPizzaToCart = (pizzaObj) => ({
 
 export const clearPizzaOnCart = () => ({
   type: CLEAR_PIZZA_CART,
+});
+
+export const removeCartItem = (id) => ({
+  type: REMOVE_CART_ITEM,
+  payload: id,
+});
+
+export const plusCartItem = (id) => ({
+  type: PLUS_CART_ITEM,
+  payload: id,
+});
+
+export const minusCartItem = (id) => ({
+  type: MINUS_CART_ITEM,
+  payload: id,
 });
 
 export default cart;

@@ -3,8 +3,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import CartItem from '../components/CartItem';
-import { clearPizzaOnCart } from '../redux/reducers/cart';
+import {
+  clearPizzaOnCart,
+  removeCartItem,
+  plusCartItem,
+  minusCartItem,
+} from '../redux/reducers/cart';
 import emptyCart from './../assets/img/empty-cart.png';
+import { Button } from '../components';
 
 function Cart() {
   const dispatch = useDispatch();
@@ -15,10 +21,29 @@ function Cart() {
     return items[key].items[0];
   }); //берем из обекта items ключи и мапим в новый массив по ключам возвращая каждый первый элемент массива в массив объектов
 
-  const handleClearPizzaOnCart = () => {
+  const onClearCart = () => {
     if (window.confirm('Вы действительно хотите очистить корзину?')) {
       dispatch(clearPizzaOnCart());
     }
+  };
+
+  const onRemoveItem = (id) => {
+    if (window.confirm('Вы действительно хотите удалить эти пиццы?')) {
+      dispatch(removeCartItem(id));
+    }
+  };
+
+  const onPlusItem = (id) => {
+    dispatch(plusCartItem(id));
+  };
+
+  const onMinusItem = (id) => {
+    dispatch(minusCartItem(id));
+  };
+
+  const onClickOrder = () => {
+    alert('Заказ принят!');
+    console.log('Ваш заказ', items);
   };
 
   return (
@@ -96,7 +121,7 @@ function Cart() {
                     strokeLinejoin='round'
                   />
                 </svg>
-                <span onClick={handleClearPizzaOnCart}>Очистить корзину</span>
+                <span onClick={onClearCart}>Очистить корзину</span>
               </div>
             </div>
             <div className='content__items'>
@@ -106,11 +131,14 @@ function Cart() {
                   name={obj.name}
                   type={obj.type}
                   size={obj.size}
+                  id={obj.id}
                   totalCount={items[obj.id].items.length}
                   totalPrice={items[obj.id].totalPrice}
+                  onRemove={onRemoveItem}
+                  onMinus={onMinusItem}
+                  onPlus={onPlusItem}
                 />
               ))}
-              {/* <CartItem name='Сырный цыпленок' type='тонкое' size={30} /> */}
             </div>
             <div className='cart__bottom'>
               <div className='cart__bottom-details'>
@@ -139,9 +167,9 @@ function Cart() {
                   </svg>
                   <span>Вернуться назад</span>
                 </NavLink>
-                <div className='button pay-btn'>
+                <Button onClick={onClickOrder} className='pay-btn'>
                   <span>Оплатить сейчас</span>
-                </div>
+                </Button>
               </div>
             </div>
           </div>
@@ -157,7 +185,7 @@ function CartEmpty() {
       <div className='container container--cart'>
         <div className='cart cart--empty'>
           <h2>
-            Корзина пустая <icon>😕</icon>
+            Корзина пустая <i>😕</i>
           </h2>
           <p>
             Вероятней всего, вы не заказывали ещё пиццу.
