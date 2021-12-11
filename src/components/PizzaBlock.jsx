@@ -43,13 +43,10 @@ function PizzaBlock({ id, name, imageUrl, sizes, price, types, onClickAddPizza, 
                 active: activeType === index,
                 disable: !types.includes(index),
               })}
-              // className={activeType === index ? 'active' : ''}
               key={`${type}_${index}`}>
               {type}
             </li>
           ))}
-          {/* <li className={activeType === 0 ? 'active' : ''}>тонкое</li>
-          <li className={activeType === 1 ? 'active' : ''}>традиционное</li> */}
         </ul>
         <ul>
           {availableSizes.map((size, index) => (
@@ -67,11 +64,7 @@ function PizzaBlock({ id, name, imageUrl, sizes, price, types, onClickAddPizza, 
       </div>
       <div className='pizza-block__bottom'>
         <div className='pizza-block__price'>от {price} ₽</div>
-        <Button
-          onClick={onAddPizza}
-          // onClick={() => onClickAddPizza({ id, name, imageUrl, sizes, price })}
-          className='button--add'
-          outline>
+        <Button onClick={onAddPizza} className='button--add' outline>
           <svg
             width='12'
             height='12'
@@ -91,7 +84,6 @@ function PizzaBlock({ id, name, imageUrl, sizes, price, types, onClickAddPizza, 
   );
 }
 
-//name, imageUrl, sizes, price, types//проверка типов пропсов
 PizzaBlock.propTypes = {
   name: PropTypes.string,
   imageUrl: PropTypes.string,
@@ -107,7 +99,6 @@ PizzaBlock.defaultProps = {
   price: 0,
   types: [],
   sizes: [],
-  // addedCount: 0,
 };
 
 export default PizzaBlock;

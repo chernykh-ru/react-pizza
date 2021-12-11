@@ -11,7 +11,6 @@ function Home() {
   const { items, isLoaded } = useSelector(({ pizzas }) => pizzas);
   const { category, sortBy } = useSelector(({ filters }) => filters);
   const cartItems = useSelector(({ cart }) => cart.items);
-  // console.log(cartItems);
   const categoryNames = ['Мясные', 'Вегатарианская', 'Гриль', 'Острые', 'Закрытые'];
   const sortItems = [
     { name: 'популярности', type: 'rating', order: 'desc' },
@@ -48,16 +47,13 @@ function Home() {
         <Categories
           activeCategory={category}
           onClickCategory={onSelectCategory}
-          // onClickItem={(index) => dispatch(setCategory(index))}
           items={categoryNames}
         />
         <SortPopup
-          // activeSortType={sortBy}
           activeSortType={sortBy.type}
           items={sortItems}
           onClickSortType={onSelectSortType}
         />
-        {/* <SortPopup items={sortItems} /> */}
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>
@@ -69,7 +65,7 @@ function Home() {
                 key={obj.id}
                 {...obj} //оператор распространения spread (…) прокидываем все свойства объекта в пропсы
               />
-            )) //хардкодим массив 10ти заглушек(так себе решение)
+            )) //хардкодим массив 10ти заглушек
           : Array(10)
               .fill(0)
               .map((_, i) => <PizzaLoadingBlock key={i} />)}

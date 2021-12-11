@@ -7,11 +7,6 @@ import Button from './Button';
 
 function Header() {
   const { totalPrice, totalCount } = useSelector(({ cart }) => cart);
-  // console.log(totalPrice, totalCount);
-  // const { totalPrice, totalCount } = useSelector(({ cart }) => ({
-  //   totalPrice: cart.totalPrice,
-  //   totalCount: cart.totalCount,
-  // }));
 
   return (
     <div className='header'>
@@ -61,7 +56,6 @@ function Header() {
               <span>{totalCount}</span>
             </Button>
           </Link>
-          {/* <a href='/cart.html' className='button button--cart'></a> */}
         </div>
       </div>
     </div>

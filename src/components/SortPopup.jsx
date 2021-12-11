@@ -3,26 +3,18 @@ import PropTypes from 'prop-types';
 
 const SortPopup = React.memo(function SortPopup({ items, activeSortType, onClickSortType }) {
   const [visiblePopup, setVisiblePopup] = React.useState(false);
-  // const [activeItem, setActivItem] = React.useState(0);
 
-  const sortRef = React.useRef(); //привязываем div sort хуком
-  // console.log(sortRef.current);
-  // console.log('items', items);
-  // console.log('activeSortType', activeSortType);
+  const sortRef = React.useRef();
 
   const activeLabel = items.find((obj) => obj.type === activeSortType).name; //берем из пропсов активный элемент, присваиваем его переменной activeLabel и показываем ее в нужном span
-  // const activeLabel = items.find((arr) => arr.type === activeSortType).name; //берем из пропсов активный элемент, присваиваем его переменной activeLabel и показываем ее в нужном span
-  // const activeLabel = items[activeItem].name; //берем из пропсов активный элемент, присваиваем его переменной activeLabel и показываем ее в нужном span
-  // console.log('activeLabel', activeLabel);
 
   const toggleVisiblePopup = () => {
     setVisiblePopup(!visiblePopup);
   };
-  //---
+
   const handleOutsideClick = (event) => {
     const path = event.path || (event.composedPath && event.composedPath()); //bug firefox
     // console.log(e.path); //путь к элементу на котором был клик
-    // если в пути клика(includes -  поиск по массиву путей) есть отслеживаемый сортреф(див сорт)
     if (!path.includes(sortRef.current)) {
       setVisiblePopup(false); //при клике вне области попапа, попап скрывается
       // console.log('outsidePopup');
@@ -32,23 +24,15 @@ const SortPopup = React.memo(function SortPopup({ items, activeSortType, onClick
   React.useEffect(() => {
     document.body.addEventListener('click', handleOutsideClick);
   }, []);
-  //---
   //переключатель активного элемента массива
   const onSelectItem = (index) => {
     if (onClickSortType) {
       onClickSortType(index);
     }
-    // setActivItem(index);
     setVisiblePopup(false); //при клике на один из элементов списка попапа, попап скрывается
   };
-  //---
   return (
-    <div
-      ref={sortRef}
-      // ref={(ref) => {
-      //   sortRef.current = ref;
-      // }}
-      className='sort'>
+    <div ref={sortRef} className='sort'>
       <div className='sort__label'>
         <svg
           className={visiblePopup ? 'rotated' : ''}
@@ -77,18 +61,13 @@ const SortPopup = React.memo(function SortPopup({ items, activeSortType, onClick
                 {obj.name}
               </li>
             ))}
-            {/* <li className='active'>популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li> */}
           </ul>
         </div>
       )}
     </div>
   );
 });
-//rfce
 
-//проверка типов пропсов
 SortPopup.propTypes = {
   activeSortType: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,

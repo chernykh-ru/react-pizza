@@ -44,6 +44,7 @@ export const setLoaded = (payload) => ({
 //   const data = await pizzasAPI.getPizzas(category, sortBy);
 //   dispatch(setPizzas(data));
 // };
+
 // export const fetchPizzas = (category, sortBy) => async (dispatch) => {
 //   // debugger;
 //   dispatch(setLoaded(false));
@@ -51,7 +52,7 @@ export const setLoaded = (payload) => ({
 //   setTimeout(() => {
 //     dispatch(setPizzas(data));
 //   }, 1200); //simulated server response delay
-// };
+// };/ /test api layer pizzasAPI
 
 export const fetchPizzas = (category, sortBy) => (dispatch) => {
   dispatch(setLoaded(false));
