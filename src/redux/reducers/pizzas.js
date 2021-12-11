@@ -1,4 +1,5 @@
-import { pizzasAPI } from '../../api/api';
+// import { pizzasAPI } from '../../api/api';
+import axios from 'axios';
 
 const SET_PIZZAS = 'REACT_PIZZA/PIZZAS/SET_PIZZAS';
 const SET_LOADED = 'REACT_PIZZA/PIZZAS/SET_LOADED';
@@ -43,14 +44,28 @@ export const setLoaded = (payload) => ({
 //   const data = await pizzasAPI.getPizzas(category, sortBy);
 //   dispatch(setPizzas(data));
 // };
-export const fetchPizzas = (category, sortBy) => async (dispatch) => {
-  // debugger;
+// export const fetchPizzas = (category, sortBy) => async (dispatch) => {
+//   // debugger;
+//   dispatch(setLoaded(false));
+//   const data = await pizzasAPI.getPizzas(category, sortBy);
+//   setTimeout(() => {
+//     dispatch(setPizzas(data));
+//   }, 1200); //simulated server response delay
+// };
+
+export const fetchPizzas = (category, sortBy) => (dispatch) => {
   dispatch(setLoaded(false));
-  const data = await pizzasAPI.getPizzas(category, sortBy);
-  setTimeout(() => {
-    dispatch(setPizzas(data));
-  }, 1200); //simulated server response delay
-};
+
+  axios
+    .get(
+      `/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy.type}&_order=${
+        sortBy.order
+      }`,
+    )
+    .then(({ data }) => {
+      dispatch(setPizzas(data));
+    });
+}; //test disable api pizzasAPI
 
 // export const fetchPizzas = () => async (dispatch) => {
 //   const { data } = await axios.get('http://localhost:5000/pizzas');
